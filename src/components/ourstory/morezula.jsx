@@ -74,8 +74,8 @@ const MoreZula = () => {
       <div className="max-w-7xl mx-auto">
         {/* Title Section */}
         <motion.div variants={leftSlideVariants} className="text-center mb-10">
-          <h1 className="text-3xl lg:text-4xl font-la-mango text-gray-800">Our Story</h1>
-          <p className="text-sm text-gray-500 pt-3">Home / Story</p>
+          <h1 className="text-3xl lg:text-3xl font-la-mango text-gray-800">Our Story</h1>
+          <p className="text-sm text-gray-500 pt-3 pb-10">Home / Story</p>
         </motion.div>
 
         {/* Content Grid */}
@@ -84,14 +84,14 @@ const MoreZula = () => {
           <motion.div variants={leftSlideVariants}>
             <motion.h3
               variants={leftSlideVariants}
-              className="text-xl lg:text-3xl font-la-mango mb-6 leading-snug text-gray-800"
+              className="text-xl lg:text-2xl font-la-mango mb-6 leading-snug text-gray-800"
             >
               Zulas n More brings you top-notch swings which give you better comfort and luxury.
             </motion.h3>
 
             <motion.p
               variants={leftSlideVariants}
-              className="text-gray-600 mb-6 text-base lg:text-lg leading-relaxed"
+              className="text-gray-500 mb-6  text-base lg:text-1xl leading-relaxed"
             >
               Zulas n More is a leading force in the world of furniture manufacturing,
               driven by a relentless commitment to craftsmanship, innovation, and design

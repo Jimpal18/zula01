@@ -23,10 +23,10 @@ import productImage10 from "../../assets/swing10.png"
 import genericProductImage from "../../assets/swing10.png"
 
 
-const fadeInVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.5 } },
-}
+// const fadeInVariants = {
+//     hidden: { opacity: 0 },
+//     visible: { opacity: 1, transition: { duration: 0.5 } },
+// }
 
 // Animation Variants
 const container = {
@@ -458,10 +458,10 @@ export default function CategoryListing() {
         window.scrollTo(0, 0)
     }
 
-    // Handlers for ProductDetailOverlay (copied from ProductListing.jsx)
-    const handleProductClick = (product) => {
-        setSelectedProduct(product);
-    }
+    // // Handlers for ProductDetailOverlay (copied from ProductListing.jsx)
+    // const handleProductClick = (product) => {
+    //     setSelectedProduct(product);
+    // }
 
     const closeProductDetail = () => {
         setSelectedProduct(null);
@@ -485,6 +485,10 @@ export default function CategoryListing() {
         closeProductDetail(); // Close modal after action
     };
 
+const handleCategoryClick = (categoryId) => {
+  // TODO: your logic here
+  console.log("Category clicked:", categoryId);
+};
 
     return (
         <motion.div

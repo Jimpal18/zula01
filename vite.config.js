@@ -36,15 +36,23 @@
 //   }
 // })
 
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react';
+// import { defineConfig } from 'vite'
+// import react from '@vitejs/plugin-react';
 
-import tailwindcss from '@tailwindcss/vite'
+// import tailwindcss from '@tailwindcss/vite'
+// export default defineConfig({
+//   plugins: [
+//     tailwindcss(),react()
+//   ],
+//    resolve: {
+//     extensions: ['.js', '.jsx'] // Add other extensions if needed
+//   }
+// })
+
+
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
 export default defineConfig({
-  plugins: [
-    tailwindcss(),react()
-  ],
-   resolve: {
-    extensions: ['.js', '.jsx'] // Add other extensions if needed
-  }
+  plugins: [react()],
 })

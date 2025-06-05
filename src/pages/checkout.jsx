@@ -12,7 +12,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate()
 
   // Get cart items from localStorage or navigation state
-  const [cartItems, setCartItems] = useState(() => {
+  const [cartItems] = useState(() => {
     const sampleItems = [
       {
         id: 1,

@@ -410,10 +410,9 @@
 // }
 
 // export default Navbar
-
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -421,24 +420,24 @@ import { FaSearch } from "react-icons/fa";
 import { FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 
-const INACTIVITY_TIMEOUT = 4 * 60 * 1000; // 4 minutes in milliseconds
+const INACTIVITY_TIMEOUT = 4 * 60 * 1000; // 4 minutes
 
 function Navbar() {
   const [nav, setNav] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
-  // isLoggedIn state ko localStorage se initialize karein
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+
+  // Initialize isLoggedIn from localStorage safely
+  const [isLoggedIn] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("isLoggedIn") === "true";
     }
     return false;
   });
+
   const [showInactivityPopup, setShowInactivityPopup] = useState(false);
-  const inactivityTimerRef = useRef(null); // Timer for inactivity popup
-  const containerRef = useRef(null); // For general use, not strictly needed for this example
+  const inactivityTimerRef = useRef(null);
+  const containerRef = useRef(null);
 
   const handleClick = () => setNav(!nav);
-  const handleClose = () => setNav(false);
 
   const scrollToTop = () => {
     setNav(false);
@@ -447,27 +446,26 @@ function Navbar() {
     }, 100);
   };
 
-  // --- Inactivity Popup Logic ---
-  const resetInactivityTimer = () => {
+  // Reset inactivity timer function
+  const resetInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current) {
       clearTimeout(inactivityTimerRef.current);
     }
+
     inactivityTimerRef.current = setTimeout(() => {
-      // Only show popup if user is NOT logged in and popup is not already visible
       if (!isLoggedIn && !showInactivityPopup) {
         setShowInactivityPopup(true);
       }
     }, INACTIVITY_TIMEOUT);
-  };
+  }, [isLoggedIn, showInactivityPopup]);
 
   useEffect(() => {
-    // Start timer on component mount
     resetInactivityTimer();
 
-    // Reset timer on user activity
     const handleUserActivity = () => {
       resetInactivityTimer();
-      // If popup is visible and user becomes active, hide it (optional, but good UX)
+
+      // If popup is visible and user becomes active, hide it
       if (showInactivityPopup) {
         setShowInactivityPopup(false);
       }
@@ -478,7 +476,6 @@ function Navbar() {
     window.addEventListener("click", handleUserActivity);
     window.addEventListener("scroll", handleUserActivity);
 
-    // Cleanup timer and event listeners on unmount
     return () => {
       if (inactivityTimerRef.current) {
         clearTimeout(inactivityTimerRef.current);
@@ -488,36 +485,16 @@ function Navbar() {
       window.removeEventListener("click", handleUserActivity);
       window.removeEventListener("scroll", handleUserActivity);
     };
-  }, [isLoggedIn, showInactivityPopup]); // Depend on isLoggedIn and showInactivityPopup
+  }, [isLoggedIn, showInactivityPopup, resetInactivityTimer]);
 
-  // --- Screen Size Check and Local Storage Persistence ---
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsLargeScreen(window.innerWidth >= 768);
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
-
-  // isLoggedIn state change hone par localStorage update karein
+  // Keep localStorage updated for isLoggedIn (if your app changes it elsewhere)
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("isLoggedIn", isLoggedIn);
     }
   }, [isLoggedIn]);
 
-  // --- Demo Login/Logout Function ---
-  const handleLoginLogoutSimulation = () => {
-    setIsLoggedIn((prev) => !prev);
-
-    if (!isLoggedIn) { 
-      setShowInactivityPopup(false);
-      resetInactivityTimer();
-    }
-  };
-
+  // Routes and motion variants remain unchanged
   const routes = {
     Home: "/home",
     AllProduct: "/products",
@@ -537,7 +514,6 @@ function Navbar() {
     exit: { opacity: 0, y: 10 },
   };
 
-  // Framer Motion icon variants (for initial animation and simple scale hover)
   const iconVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
@@ -545,7 +521,6 @@ function Navbar() {
       scale: 1,
       transition: { duration: 0.4, ease: "easeInOut" },
     },
-    // Main hover background/color change directly with Tailwind classes
   };
 
   const logoVariants = {
@@ -564,7 +539,6 @@ function Navbar() {
     exit: { opacity: 0, scale: 0.8, transition: { duration: 0.2 } },
   };
 
-  // Common classes for the gradient hover effect on icons
   const gradientHoverClasses = `
     relative overflow-hidden z-10
     group
@@ -573,7 +547,6 @@ function Navbar() {
     hover:border-transparent
   `;
 
-  // Gradient overlay which becomes visible on hover
   const gradientOverlayClasses = `
     absolute inset-0 rounded-full
     bg-gradient-to-br from-amber-400 via-amber-500 to-amber-100
@@ -603,7 +576,11 @@ function Navbar() {
           whileHover="hover"
         >
           <Link to="/home" onClick={scrollToTop}>
-            <img src={logo} alt="Zula Logo" className="h-24 w-auto object-contain brightness-10" />
+            <img
+              src={logo}
+              alt="Zula Logo"
+              className="h-24 w-auto object-contain brightness-10"
+            />
           </Link>
         </motion.div>
 
@@ -636,7 +613,7 @@ function Navbar() {
             animate="visible"
             className={gradientHoverClasses}
           >
-            <div className={gradientOverlayClasses}></div> {/* Gradient overlay */}
+            <div className={gradientOverlayClasses}></div>
             <Link to="/addcart" onClick={scrollToTop} aria-label="Cart">
               <FiShoppingCart className="w-5 h-5 text-black group-hover:text-black transition-colors duration-300 ease-in-out " />
             </Link>
@@ -649,16 +626,15 @@ function Navbar() {
             animate="visible"
             className={gradientHoverClasses}
           >
-            <div className={gradientOverlayClasses}></div> {/* Gradient overlay */}
+            <div className={gradientOverlayClasses}></div>
             <Link to="/whilist" onClick={scrollToTop} aria-label="Wishlist">
               <FiHeart className="w-5 h-5 text-black group-hover:text-black transition-colors duration-300 ease-in-out " />
             </Link>
           </motion.div>
 
-          {/* Conditional User/Profile Icon */}
+          {/* User/Profile Icon */}
           <AnimatePresence mode="wait">
             {isLoggedIn ? (
-              // If user is logged in: Profile Icon
               <motion.div
                 key="profile-icon"
                 variants={iconVariants}
@@ -667,18 +643,12 @@ function Navbar() {
                 exit="hidden"
                 className={gradientHoverClasses}
               >
-                <div className={gradientOverlayClasses}></div> {/* Gradient overlay */}
-                <Link
-                  to="/profile"
-                  onClick={scrollToTop}
-                  aria-label="User Profile"
-                >
+                <div className={gradientOverlayClasses}></div>
+                <Link to="/profile" onClick={scrollToTop} aria-label="User Profile">
                   <FiUser className="w-5 h-5 text-black group-hover:text-black transition-colors duration-300 ease-in-out " />
                 </Link>
               </motion.div>
-            ) : 
-            (
-              // If user is logged out: Login/Signup Icon
+            ) : (
               <motion.div
                 key="login-signup-icon"
                 variants={iconVariants}
@@ -687,31 +657,13 @@ function Navbar() {
                 exit="hidden"
                 className={gradientHoverClasses}
               >
-                <div className={gradientOverlayClasses}></div> 
-                <Link
-                  to="/login"
-                  onClick={scrollToTop}
-                  aria-label="Login or Sign Up"
-                >
+                <div className={gradientOverlayClasses}></div>
+                <Link to="/login" onClick={scrollToTop} aria-label="Login or Sign Up">
                   <FiUser className="w-5 h-5 text-black group-hover:text-black transition-colors duration-300 ease-in-out" />
                 </Link>
               </motion.div>
-            )
-            }
+            )}
           </AnimatePresence>
-
-          {/* DEMO BUTTON: For debugging/testing purposes only. Remove in real app. */}
-          {/* <motion.div
-            whileHover={{ scale: 1.1, color: "white" }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <button
-              onClick={handleLoginLogoutSimulation}
-              className="text-black hover:text-amber-200 px-2 py-1 border rounded-xl hover:bg-black text-sm"
-            >
-              {isLoggedIn ? "Simulate Logout" : "Simulate Login"}
-            </button>
-          </motion.div> */}
 
           {/* MOBILE MENU ICON */}
           <div onClick={handleClick} className="md:hidden cursor-pointer">
@@ -736,9 +688,7 @@ function Navbar() {
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="w-full p-2 pr-10 rounded-3xl bg-black text-white placeholder-white focus:outline-none 
-                             border-2 border-black transition-colors duration-300 ease-in-out 
-                             focus:border-amber-500" // Added and modified classes here
+                  className="w-full p-2 pr-10 rounded-3xl bg-black text-white placeholder-white focus:outline-none border-2 border-black transition-colors duration-300 ease-in-out focus:border-amber-500"
                 />
                 <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
               </div>
@@ -758,23 +708,13 @@ function Navbar() {
                 </li>
               ))}
             </ul>
-
-            {/* Toggle Login (Mobile only) */}
-            {/* <div className="mt-4 text-center">
-              <button
-                onClick={() => handleLoginLogoutSimulation()} // Use simulation function
-                className="px-4 py-2 bg-amber-200 text-amber-800 rounded-full text-sm font-semibold hover:bg-amber-300 transition duration-200"
-              >
-                {isLoggedIn ? "Logout Demo" : "Login Demo"}
-              </button>
-            </div> */}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Inactivity Pop-up */}
+      {/* Inactivity Popup */}
       <AnimatePresence>
-        {showInactivityPopup && !isLoggedIn && ( // Only show if not logged in
+        {showInactivityPopup && !isLoggedIn && (
           <motion.div
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]"
             initial={{ opacity: 0 }}
@@ -791,9 +731,10 @@ function Navbar() {
               <button
                 onClick={() => {
                   setShowInactivityPopup(false);
-                  resetInactivityTimer(); // Reset timer when closed
+                  resetInactivityTimer();
                 }}
                 className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold"
+                aria-label="Close popup"
               >
                 &times;
               </button>
@@ -808,8 +749,7 @@ function Navbar() {
                   onClick={() => {
                     scrollToTop();
                     setShowInactivityPopup(false);
-                    // No need to set isLoggedIn here, actual login process will do it
-                    resetInactivityTimer(); 
+                    resetInactivityTimer();
                   }}
                   className="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700 transition duration-200"
                 >
@@ -818,7 +758,7 @@ function Navbar() {
                 <button
                   onClick={() => {
                     setShowInactivityPopup(false);
-                    resetInactivityTimer(); // Reset timer when user clicks to continue
+                    resetInactivityTimer();
                   }}
                   className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-200"
                 >

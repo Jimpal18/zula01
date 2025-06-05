@@ -517,21 +517,21 @@ export default function ProductListing() {
         setCurrentPage(1); 
     }
 
-    const clearFilters = () => {
-        setCategoryFilters(
-            Object.keys(categoryFilters).reduce((acc, key) => {
-                acc[key] = false
-                return acc
-            }, {}),
-        )
-        setPriceFilters(
-            Object.keys(priceFilters).reduce((acc, key) => {
-                acc[key] = false
-                return acc
-            }, {}),
-        )
-        setCurrentPage(1); 
-    }
+    // const clearFilters = () => {
+    //     setCategoryFilters(
+    //         Object.keys(categoryFilters).reduce((acc, key) => {
+    //             acc[key] = false
+    //             return acc
+    //         }, {}),
+    //     )
+    //     setPriceFilters(
+    //         Object.keys(priceFilters).reduce((acc, key) => {
+    //             acc[key] = false
+    //             return acc
+    //         }, {}),
+    //     )
+    //     setCurrentPage(1); 
+    // }
 
     // Sample product data with imported images
     const products = [
@@ -748,9 +748,13 @@ export default function ProductListing() {
         sortedProducts.sort((a, b) => a.price - b.price);
     }
     else if (sortBy === "Sort by: Newest") {
-       
-    } else if (sortBy === "Sort by: Popular") {
-        
+               sortedProducts.sort((a, b) => b.price - a.price);
+
+    } 
+    
+    else if (sortBy === "Sort by: Popular") {
+                sortedProducts.sort((a, b) => a.price - b.price);
+
     }
 
 
@@ -761,7 +765,7 @@ export default function ProductListing() {
 
     const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    // const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 const nextPage = () => {
     if (currentPage < totalPages) {
@@ -904,7 +908,7 @@ useEffect(() => {
   animate="visible"
   exit="exit"
 >
-                            {currentProducts.map((product, index) => (
+                            {currentProducts.map((product) => (
                                  <motion.div
       key={product.id}
       variants={productCardVariants}    // card animates from top

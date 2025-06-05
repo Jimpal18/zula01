@@ -374,7 +374,7 @@ export default function ContactPage() {
             <motion.button
               key={location.id}
               onClick={() => handleLocationClick(location.id)}
-              className={`px-6 py-2 rounded-xl  text-sm font-medium transition-colors duration-200 shadow-md ${
+              className={`px-6 py-2 rounded-xl text-sm font-medium transition-colors duration-200 shadow-md ${
                 activeLocation === location.id
                   ? "bg-[#1c2c1a] text-white"
                   : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
