@@ -146,6 +146,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+
 import Navbar from "./components/home/navbar";
 import Home from "./pages/home";
 import Product from "./pages/products";
@@ -159,18 +160,21 @@ import CheckoutPage from "./pages/checkout";
 import WishlistPage from "./pages/whilist";
 import UserProfile from "./pages/profile";
 import LoginPage from "./pages/login";
-import SignPage from "./pages/Signup";
+
+// **Use lowercase here as file is signup.jsx**
+import SignPage from "./pages/signup";
+
 import WhatsAppButton from "./pages/whatsapp";
 import CategoryPage2 from "./components/categories/page2";
 import CategoryPage3 from "./components/categories/page3";
 import ForgotPasswordPage from "./pages/forgot";
 // import OrderConfirmationPage from "./pages/profile2"
+
 import "./App.css";
 
 function AppContent() {
   const location = useLocation();
 
-  // Routes where Navbar and Footer should NOT appear
   const hideHeaderFooterPaths = ["/login", "/signup"];
   const shouldHideHeaderFooter = hideHeaderFooterPaths.includes(
     location.pathname.toLowerCase()
