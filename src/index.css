@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* Base Reset */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  background-color: white;
+  color: black;
+  font-family: Arial, sans-serif;
+}
+
+/* Animated border input */
+.animated-border {
+  background: linear-gradient(
+    270deg,
+    #f43f5e,
+    #3b82f6,
+    #facc15,
+    #10b981,
+    #f43f5e,
+    #e87fd9,
+    #989176
+  );
+  background-size: 800% 800%;
+  animation: border-rotate 5s linear infinite;
+  padding: 2px;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.animated-border > input {
+  border-radius: 9999px;
+  border: none;
+  display: block;
+  width: 100%;
+  height: 40px;
+  background: #ebe9e5;
+  padding-left: 1rem;
+  padding-right: 3rem;
+  font-size: 1rem;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.animated-border > input:focus {
+  background-color: #fff;
+}
+
+/* Marquee animation */
+@layer utilities {
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 90s linear infinite;
+  }
+}
+
+/* Blob animation */
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s !important;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s !important;
+}
