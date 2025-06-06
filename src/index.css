@@ -11,6 +11,10 @@ html, body {
   background-color: white;
   color: black;
   font-family: Arial, sans-serif;
+
+  /* Prevent scroll bounce on mobile */
+  overscroll-behavior: none;
+  touch-action: pan-x pan-y; /* Prevent unwanted scroll gestures */
 }
 
 /* Animated border input */
