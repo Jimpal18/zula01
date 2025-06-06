@@ -445,14 +445,12 @@
 //         </div>
 //     );
 // }
-
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-// import profilePic from "../assets/me.jpg"; // Removed: will be handled locally
-import productimg from "../assets/pic2.jpg";
+import productimg from "../assets/pic2.jpg"; // Ensure this path is correct
 
 import {
   FiCheckCircle,
@@ -667,23 +665,45 @@ export default function UserProfile() {
   const [activeContent, setActiveContent] = useState("info");
   const navigate = useNavigate();
 
-  // State to manage form input values
   const [formData, setFormData] = useState({
-    firstName: "Jimpal",
-    lastName: "Sorthiya",
-    phoneNumber: "+91 98765 43210",
-    dob: "18/11/2006",
-    email: "zulazandmore@gmail.com",
-    password: "zulazandmore",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    dob: "",
+    email: "",
+    password: "", // Storing password client-side is generally not recommended for real apps.
   });
 
-  // New state for password visibility
   const [showPassword, setShowPassword] = useState(false);
-
-  // State for profile picture
   const [profilePic, setProfilePic] = useState(null);
 
-  // Handle input changes
+  useEffect(() => {
+    // Load user data from localStorage when component mounts
+    const storedUserData = localStorage.getItem("userData");
+    const storedProfilePic = localStorage.getItem("profilePic");
+
+    if (storedUserData) {
+      setFormData(JSON.parse(storedUserData));
+    } else {
+      // If no user data exists, simulate a fresh sign-up with default values
+      const defaultUserData = {
+        firstName: "Guest",
+        lastName: "User",
+        phoneNumber: "",
+        dob: "",
+        email: "guest@example.com",
+        password: "guestpassword",
+      };
+      setFormData(defaultUserData);
+      // It's good practice to set this default in localStorage too if it's the first visit
+      localStorage.setItem("userData", JSON.stringify(defaultUserData));
+    }
+
+    if (storedProfilePic) {
+      setProfilePic(storedProfilePic);
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -692,40 +712,42 @@ export default function UserProfile() {
     }));
   };
 
-  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Saving changes:", formData);
+    // Save updated formData to localStorage
+    localStorage.setItem("userData", JSON.stringify(formData));
 
+    console.log("Saving changes:", formData);
     alert("Your information has been updated successfully!");
   };
 
   const handleLogout = () => {
     console.log("Logging out...");
-    localStorage.removeItem("userToken");
-    navigate("/login");
+    localStorage.removeItem("userData"); // Clear user data
+    localStorage.removeItem("profilePic"); // Clear profile picture
+    localStorage.removeItem("userToken"); // If you have a token (recommended for real apps)
+    navigate("/login"); // Redirect to login page
   };
 
-  // Handle profile picture upload
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfilePic(reader.result); // Base64 encoded image
+        localStorage.setItem("profilePic", reader.result); // Save to local storage
       };
       reader.readAsDataURL(file);
     }
   };
 
   return (
-    <div className="min-h-screen bg-amber-50 text-[#2D3319]  p-4 md:p-8 lg:p-12">
+    <div className="min-h-screen bg-amber-50 text-[#2D3319] p-4 md:p-8 lg:p-12">
       <div className="max-w-6xl mx-auto flex flex-col mt-12 lg:flex-row gap-6 md:gap-8 bg-yellow-50 rounded-lg shadow-md overflow-hidden">
         {/* Sidebar */}
         <motion.div
@@ -735,7 +757,7 @@ export default function UserProfile() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <motion.img
-            src={profilePic || "path/to/default/profile.jpg"} // Use default if no pic
+            src={profilePic || "https://via.placeholder.com/150"} // Use default placeholder if no pic
             alt="Profile"
             className="w-24 h-24 rounded-full object-cover shadow-lg"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -754,7 +776,7 @@ export default function UserProfile() {
             onChange={handleProfilePicChange}
             className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
           />
-          <h2 className="text-xl font-serif">Hii, Jimpal</h2>
+          <h2 className="text-xl font-serif">Hii, {formData.firstName}</h2>
           <div className="flex flex-row lg:flex-col gap-2 w-full justify-center lg:block">
             <motion.button
               onClick={() => setActiveContent("info")}
@@ -785,7 +807,7 @@ export default function UserProfile() {
           </div>
           {/* Logout button */}
           <motion.button
-            onClick={handleLogout} // Call the handleLogout function
+            onClick={handleLogout}
             className="flex items-center gap-2 mt-4 text-sm text-[#2D3319] hover:text-red-500 transition-colors"
             variants={buttonVariants}
             whileHover="hover"
@@ -872,10 +894,10 @@ export default function UserProfile() {
                 </div>
                 <div>
                   <label htmlFor="dob" className="block text-sm font-medium mb-1">
-                    DOB
+                    Date of Birth
                   </label>
                   <motion.input
-                    type="text"
+                    type="date" // Changed to type="date" for a proper date picker
                     id="dob"
                     name="dob"
                     value={formData.dob}
@@ -938,7 +960,7 @@ export default function UserProfile() {
                 </div>
                 <motion.button
                   type="submit"
-                  className="md:col-span-2 bg-[#2D3319] text-white py-2 w-[150px] text-center  rounded hover:bg-[#2D3319]/90 transition-colors mt-4"
+                  className="md:col-span-2 bg-[#2D3319] text-white py-2 w-[150px] text-center rounded hover:bg-[#2D3319]/90 transition-colors mt-4"
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"

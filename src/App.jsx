@@ -147,41 +147,55 @@ import {
   useLocation,
 } from "react-router-dom";
 
+// Components
 import Navbar from "./components/home/navbar";
+import Footer from "./components/home/footer";
+import WhatsAppButton from "./pages/whatsapp";
+
+// Pages
 import Home from "./pages/home";
 import Product from "./pages/products";
 import Category from "./pages/categories";
 import Newproduct from "./pages/newproducts";
 import OurStory from "./pages/ourstory";
 import Contact from "./pages/contact";
-import Footer from "./components/home/footer";
 import ShoppingCart from "./pages/addcart";
 import CheckoutPage from "./pages/checkout";
 import WishlistPage from "./pages/whilist";
 import UserProfile from "./pages/profile";
 import LoginPage from "./pages/login";
-
-// **Use lowercase here as file is signup.jsx**
 import SignPage from "./pages/signup";
+import ForgotPasswordPage from "./pages/forgot";
 
-import WhatsAppButton from "./pages/whatsapp";
+// Nested Category Pages
 import CategoryPage2 from "./components/categories/page2";
 import CategoryPage3 from "./components/categories/page3";
-import ForgotPasswordPage from "./pages/forgot";
+
 // import OrderConfirmationPage from "./pages/profile2"
 
 import "./App.css";
 
+// Optional: Scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 function AppContent() {
   const location = useLocation();
 
-  const hideHeaderFooterPaths = ["/login", "/signup"];
+  // Routes where header/footer should be hidden
+  const hideHeaderFooterPaths = ["/login", "/signup", "/forgot"];
   const shouldHideHeaderFooter = hideHeaderFooterPaths.includes(
     location.pathname.toLowerCase()
   );
 
   return (
     <div className="App">
+      <ScrollToTop />
       {!shouldHideHeaderFooter && <Navbar />}
       <main>
         <Routes>
@@ -189,6 +203,8 @@ function AppContent() {
           <Route path="/home" element={<Home />} />
           <Route path="/products" element={<Product />} />
           <Route path="/categories" element={<Category />} />
+          <Route path="/categories/page2" element={<CategoryPage2 />} />
+          <Route path="/categories/page3" element={<CategoryPage3 />} />
           <Route path="/newproducts" element={<Newproduct />} />
           <Route path="/ourstory" element={<OurStory />} />
           <Route path="/contact" element={<Contact />} />
@@ -198,10 +214,12 @@ function AppContent() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignPage />} />
-          <Route path="/categories/page2" element={<CategoryPage2 />} />
-          <Route path="/categories/page3" element={<CategoryPage3 />} />
           <Route path="/forgot" element={<ForgotPasswordPage />} />
-          {/* <Route path="/profile2" element={<OrderConfirmationPage />} /> */}
+
+          {/* Future route: <Route path="/profile2" element={<OrderConfirmationPage />} /> */}
+
+          {/* Optional: 404 Route */}
+          {/* <Route path="*" element={<NotFoundPage />} /> */}
         </Routes>
       </main>
       {!shouldHideHeaderFooter && <Footer />}

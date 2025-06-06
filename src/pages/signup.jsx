@@ -128,8 +128,6 @@
 // };
 
 // export default SignPage;
-
-
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -160,8 +158,11 @@ const SignPage = () => {
       return;
     }
 
-    // Save data to localStorage (or send to backend here)
-    localStorage.setItem("profileData", JSON.stringify(form));
+    // --- IMPORTANT CHANGE HERE ---
+    // Save data to localStorage using the key "userData"
+    // This key must match the one used in your UserProfile component
+    localStorage.setItem("userData", JSON.stringify(form));
+    // --- END OF IMPORTANT CHANGE ---
 
     // Redirect to profile page
     navigate("/profile");

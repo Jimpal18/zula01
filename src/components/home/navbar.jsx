@@ -1,418 +1,7 @@
-// // "use client"
 
-// // import React, { useState, useEffect, useRef } from "react"
-// // import { motion, AnimatePresence } from "framer-motion"
-// // import { Link } from "react-router-dom"
-// // import { MenuIcon, XIcon } from "@heroicons/react/outline"
-// // import { FaSearch } from "react-icons/fa"
-// // import { FiShoppingCart, FiHeart, FiUser } from "react-icons/fi"
-// // import logo from "../../assets/logo.png"
-
-// // function Navbar() {
-// //   const [nav, setNav] = useState(false)
-// //   const [isLargeScreen, setIsLargeScreen] = useState(false)
-// //   const containerRef = useRef(null)
-
-// //   const handleClick = () => setNav(!nav)
-// //   const handleClose = () => setNav(false)
-
-// //   const scrollToTop = () => {
-// //     setNav(false) 
-// //     setTimeout(() => {
-// //       window.scrollTo({ top: 0, behavior: "smooth" })
-// //     }, 100) 
-// //   }
-
-// //   useEffect(() => {
-// //     const checkScreenSize = () => {
-// //       setIsLargeScreen(window.innerWidth >= 768)
-// //     }
-
-// //     checkScreenSize()
-// //     window.addEventListener("resize", checkScreenSize)
-
-// //     return () => {
-// //       window.removeEventListener("resize", checkScreenSize)
-// //     }
-// //   }, [])
-
-// //   const routes = {
-// //     Home: "/home",
-// //     "All Product": "/products",
-// //     "Shop by Categories": "/categories",
-// //     "New Product": "/newproducts",
-// //     "Our Story": "/ourstory",
-// //     Contact: "/contact"
-// //   }
-
-// //   const navItemVariants = {
-// //     hidden: { opacity: 0, y: -10 },
-// //     visible: (i) => ({
-// //       opacity: 1,
-// //       y: 0,
-// //       transition: { delay: i * 0.1, duration: 0.6, ease: "easeInOut" }
-// //     }),
-// //     exit: { opacity: 0, y: 10 }
-// //   }
-
-// //   const iconVariants = {
-// //     hidden: { opacity: 0, scale: 0.8 },
-// //     visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: "easeInOut" } },
-// //     hover: {
-// //       scale: 1.1,
-// //       backgroundColor: "#000000",
-// //       borderColor: "#000000",
-// //       color: "#fff",
-// //       transition: { duration: 0.2 }
-// //     }
-// //   }
-
-// //   const logoVariants = {
-// //     hidden: { opacity: 0, x: -20 },
-// //     visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeInOut" } },
-// //     hover: { scale: 1.1, transition: { duration: 0.3, yoyo: Infinity } }
-// //   }
-
-// //   return (
-// //     <motion.div
-// //       initial={{ opacity: 0, y: -20 }}
-// //       animate={{ opacity: 1, y: 0 }}
-// //       transition={{ duration: 0.8, ease: "easeInOut" }}
-// //       className="w-full fixed top-0 left-0 bg-amber-50 z-50 shadow-md"
-// //     >
-// //       <div className="px-4 max-w-screen-xl mx-auto flex items-center justify-between h-[70px]" ref={containerRef}>
-// //         {/* LOGO */}
-// //         <motion.div variants={logoVariants} initial="hidden" animate="visible" whileHover="hover">
-// //           <Link to="/home" onClick={scrollToTop}>
-// //             <img src={logo || "/placeholder.svg"} alt="Logo" className="h-25 w-auto object-contain" />
-// //           </Link>
-// //         </motion.div>
-
-// //         {/* DESKTOP MENU */}
-// //         <motion.ul className="hidden md:flex gap-6 text-black font-normal text-sm" initial="hidden" animate="visible">
-// //           {Object.entries(routes).map(([item, path], index) => (
-// //             <motion.li
-// //               key={item}
-// //               variants={navItemVariants}
-// //               custom={index}
-// //               whileHover={{ scale: 1.1, color: "#f59e0b" }}
-// //             >
-// //               <Link to={path} onClick={scrollToTop} className="hover:text-amber-600">
-// //                 {item}
-// //               </Link>
-// //             </motion.li>
-// //           ))}
-// //         </motion.ul>
-
-// //         {/* RIGHT ICONS */}
-// //         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 bg-amber-50 p-2 rounded-full">
-// //           {/* Cart */}
-// //           <motion.div
-// //             variants={iconVariants}
-// //             initial="hidden"
-// //             animate="visible"
-// //             whileHover="hover"
-// //             className="p-2 rounded-full bg-amber-50 border  flex items-center justify-center transition-all duration-200"
-// //           >
-// //             <Link to="/addcart" onClick={scrollToTop} className="text-black hover:text-amber-200">
-// //               <FiShoppingCart className="w-5 h-5" />
-// //             </Link>
-// //           </motion.div>
-
-// //           {/* Wishlist */}
-// //           <motion.div
-// //             variants={iconVariants}
-// //             initial="hidden"
-// //             animate="visible"
-// //             whileHover="hover"
-// //             className="p-2 rounded-full bg-amber-50 border  flex items-center justify-center transition-all duration-200"
-// //           >
-// //             <Link to="/whilist" onClick={scrollToTop} className="text-black hover:text-amber-200">
-// //               <FiHeart className="w-5 h-5" />
-// //             </Link>
-// //           </motion.div>
-
-// //           {/* Profile */}
-// //           <motion.div
-// //             variants={iconVariants}
-// //             initial="hidden"
-// //             animate="visible"
-// //             whileHover="hover"
-// //             className="p-2 rounded-full bg-amber-50 border  flex items-center justify-center transition-all duration-200"
-// //           >
-// //             <Link to="/profile" onClick={scrollToTop} className="text-black hover:text-amber-200">
-// //               <FiUser className="w-5 h-5" />
-// //             </Link>
-// //           </motion.div>
-
-// //           {/* Login */}
-// //           <motion.div
-// //             whileHover={{ scale: 1.1, color: "white" }}
-// //             transition={{ type: "spring", stiffness: 400, damping: 17 }}
-// //           >
-// //             <Link to="/login" onClick={scrollToTop} className="text-black hover:text-amber-200 px-2 py-1 border rounded-xl hover:bg-black">
-// //               Login
-// //             </Link>
-// //           </motion.div>
-
-// //           {/* MOBILE MENU ICON */}
-// //           <div onClick={handleClick} className="md:hidden cursor-pointer">
-// //             {nav ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
-// //           </div>
-// //         </div>
-// //       </div>
-
-// //       {/* MOBILE DROPDOWN */}
-// //       <AnimatePresence>
-// //         {nav && (
-// //           <motion.div
-// //             initial={{ opacity: 0, height: 0 }}
-// //             animate={{ opacity: 1, height: "auto" }}
-// //             exit={{ opacity: 0, height: 0 }}
-// //             transition={{ duration: 0.3, ease: "easeInOut" }}
-// //             className="md:hidden bg-amber-50 w-full px-4 pb-4 overflow-hidden"
-// //           >
-// //             {/* Optional Search Bar */}
-// //             <div className="py-3 flex justify-center">
-// //               <div className="relative w-full max-w-[660px]">
-// //                 <input
-// //                   type="text"
-// //                   placeholder="Search..."
-// //                   className="w-full p-2 pr-10 rounded-3xl bg-black text-white placeholder-white focus:outline-none"
-// //                 />
-// //                 <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
-// //               </div>
-// //             </div>
-
-// //             {/* MOBILE MENU ITEMS */}
-// //             <ul className="flex flex-col space-y-3 text-black font-bold">
-// //               {Object.entries(routes).map(([item, path]) => (
-// //                 <li key={item}>
-// //                   <Link to={path} onClick={scrollToTop}>
-// //                     {item}
-// //                   </Link>
-// //                 </li>
-// //               ))}
-// //             </ul>
-// //           </motion.div>
-// //         )}
-// //       </AnimatePresence>
-// //     </motion.div>
-// //   )
-// // }
-
-// // export default Navbar
-
-
-// // "use client"
-
-// import React, { useState, useEffect, useRef } from "react"
-// import { motion, AnimatePresence } from "framer-motion"
-// import { Link } from "react-router-dom"
-// import { MenuIcon, XIcon } from "@heroicons/react/outline"
-// import { FaSearch } from "react-icons/fa"
-// import { FiShoppingCart, FiHeart, FiUser } from "react-icons/fi"
-// import logo from "../../assets/logo.png"
-
-// function Navbar() {
-//   const [nav, setNav] = useState(false)
-//   const [isLargeScreen, setIsLargeScreen] = useState(false)
-//   const containerRef = useRef(null)
-
-//   const handleClick = () => setNav(!nav)
-//   const handleClose = () => setNav(false)
-
-//   // Scroll to top and close mobile nav smoothly
-//   const scrollToTop = () => {
-//     setNav(false) // Close mobile menu first
-//     setTimeout(() => {
-//       window.scrollTo({ top: 0, behavior: "smooth" })
-//     }, 100) // Delay so menu close animation works before scroll
-//   }
-
-//   useEffect(() => {
-//     const checkScreenSize = () => {
-//       setIsLargeScreen(window.innerWidth >= 768)
-//     }
-
-//     checkScreenSize()
-//     window.addEventListener("resize", checkScreenSize)
-
-//     return () => {
-//       window.removeEventListener("resize", checkScreenSize)
-//     }
-//   }, [])
-
-//   const routes = {
-//     Home: "/home",
-//     "All Product": "/products",
-//     "Shop by Categories": "/categories",
-//     "New Product": "/newproducts",
-//     "Our Story": "/ourstory",
-//     Contact: "/contact"
-//   }
-
-//   const navItemVariants = {
-//     hidden: { opacity: 0, y: -10 },
-//     visible: (i) => ({
-//       opacity: 1,
-//       y: 0,
-//       transition: { delay: i * 0.1, duration: 0.6, ease: "easeInOut" }
-//     }),
-//     exit: { opacity: 0, y: 10 }
-//   }
-
-//   const iconVariants = {
-//     hidden: { opacity: 0, scale: 0.8 },
-//     visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: "easeInOut" } },
-//     hover: {
-//       scale: 1.1,
-//       backgroundColor: "#000000",
-//       borderColor: "#000000",
-//       color: "#fff",
-//       transition: { duration: 0.2 }
-//     }
-//   }
-
-//   const logoVariants = {
-//     hidden: { opacity: 0, x: -20 },
-//     visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeInOut" } },
-//     hover: { scale: 1.1, transition: { duration: 0.3, yoyo: Infinity } }
-//   }
-
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0, y: -20 }}
-//       animate={{ opacity: 1, y: 0 }}
-//       transition={{ duration: 0.8, ease: "easeInOut" }}
-//       // Removed 'fixed', 'top-0', and 'left-0' classes
-//       className="w-full bg-amber-50 z-50 shadow-md pt-3"
-//     >
-//       <div className="px-4 max-w-screen-xl mx-auto flex items-center justify-between h-[70px]" ref={containerRef}>
-//         {/* LOGO */}
-//         <motion.div variants={logoVariants} initial="hidden" animate="visible" whileHover="hover">
-//           <Link to="/home" onClick={scrollToTop}>
-//             <img src={logo} alt="Logo" className="h-25 w-auto object-contain" />
-//           </Link>
-//         </motion.div>
-
-//         {/* DESKTOP MENU */}
-//         <motion.ul className="hidden md:flex gap-6 text-black font-normal text-sm" initial="hidden" animate="visible">
-//           {Object.entries(routes).map(([item, path], index) => (
-//             <motion.li
-//               key={item}
-//               variants={navItemVariants}
-//               custom={index}
-//               whileHover={{ scale: 1.1, color: "#f59e0b" }}
-//             >
-//               <Link to={path} onClick={scrollToTop} className="hover:text-amber-600">
-//                 {item}
-//               </Link>
-//             </motion.li>
-//           ))}
-//         </motion.ul>
-
-//         {/* RIGHT ICONS */}
-//         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 bg-amber-50 p-2 rounded-full">
-//           {/* Cart */}
-//           <motion.div
-//             variants={iconVariants}
-//             initial="hidden"
-//             animate="visible"
-//             whileHover="hover"
-//             className="p-2 rounded-full bg-amber-50 border flex items-center justify-center transition-all duration-200"
-//           >
-//             <Link to="/addcart" onClick={scrollToTop} className="text-black hover:text-amber-200">
-//               <FiShoppingCart className="w-5 h-5" />
-//             </Link>
-//           </motion.div>
-
-//           {/* Wishlist */}
-//           <motion.div
-//             variants={iconVariants}
-//             initial="hidden"
-//             animate="visible"
-//             whileHover="hover"
-//             className="p-2 rounded-full bg-amber-50 border flex items-center justify-center transition-all duration-200"
-//           >
-//             <Link to="/whilist" onClick={scrollToTop} className="text-black hover:text-amber-200">
-//               <FiHeart className="w-5 h-5" />
-//             </Link>
-//           </motion.div>
-
-//           {/* Profile */}
-//           <motion.div
-//             variants={iconVariants}
-//             initial="hidden"
-//             animate="visible"
-//             whileHover="hover"
-//             className="p-2 rounded-full bg-amber-50 border flex items-center justify-center transition-all duration-200"
-//           >
-//             <Link to="/profile" onClick={scrollToTop} className="text-black hover:text-amber-200">
-//               <FiUser className="w-5 h-5" />
-//             </Link>
-//           </motion.div>
-
-//           {/* Login */}
-//           <motion.div
-//             whileHover={{ scale: 1.1, color: "white" }}
-//             transition={{ type: "spring", stiffness: 400, damping: 17 }}
-//           >
-//             <Link to="/login" onClick={scrollToTop} className="text-black hover:text-amber-200 px-2 py-1 border rounded-xl hover:bg-black">
-//               Login
-//             </Link>
-//           </motion.div>
-
-//           {/* MOBILE MENU ICON */}
-//           <div onClick={handleClick} className="md:hidden cursor-pointer">
-//             {nav ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* MOBILE DROPDOWN */}
-//       <AnimatePresence>
-//         {nav && (
-//           <motion.div
-//             initial={{ opacity: 0, height: 0 }}
-//             animate={{ opacity: 1, height: "auto" }}
-//             exit={{ opacity: 0, height: 0 }}
-//             transition={{ duration: 0.3, ease: "easeInOut" }}
-//             className="md:hidden bg-amber-50 w-full px-4 pb-4 overflow-hidden"
-//           >
-//             {/* Optional Search Bar */}
-//             <div className="py-3 flex justify-center">
-//               <div className="relative w-full max-w-[660px]">
-//                 <input
-//                   type="text"
-//                   placeholder="Search..."
-//                   className="w-full p-2 pr-10 rounded-3xl bg-black text-white placeholder-white focus:outline-none"
-//                 />
-//                 <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
-//               </div>
-//             </div>
-
-//             {/* MOBILE MENU ITEMS */}
-//             <ul className="flex flex-col space-y-3 text-black font-bold">
-//               {Object.entries(routes).map(([item, path]) => (
-//                 <li key={item}>
-//                   <Link to={path} onClick={scrollToTop}>
-//                     {item}
-//                   </Link>
-//                 </li>
-//               ))}
-//             </ul>
-//           </motion.div>
-//         )}
-//       </AnimatePresence>
-//     </motion.div>
-//   )
-// }
-
-// export default Navbar
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -420,22 +9,16 @@ import { FaSearch } from "react-icons/fa";
 import { FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 
-const INACTIVITY_TIMEOUT = 4 * 60 * 1000; // 4 minutes
-
 function Navbar() {
   const [nav, setNav] = useState(false);
 
-  // Initialize isLoggedIn from localStorage safely
+  // Check if user is logged in from localStorage
   const [isLoggedIn] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("isLoggedIn") === "true";
     }
     return false;
   });
-
-  const [showInactivityPopup, setShowInactivityPopup] = useState(false);
-  const inactivityTimerRef = useRef(null);
-  const containerRef = useRef(null);
 
   const handleClick = () => setNav(!nav);
 
@@ -446,55 +29,6 @@ function Navbar() {
     }, 100);
   };
 
-  // Reset inactivity timer function
-  const resetInactivityTimer = useCallback(() => {
-    if (inactivityTimerRef.current) {
-      clearTimeout(inactivityTimerRef.current);
-    }
-
-    inactivityTimerRef.current = setTimeout(() => {
-      if (!isLoggedIn && !showInactivityPopup) {
-        setShowInactivityPopup(true);
-      }
-    }, INACTIVITY_TIMEOUT);
-  }, [isLoggedIn, showInactivityPopup]);
-
-  useEffect(() => {
-    resetInactivityTimer();
-
-    const handleUserActivity = () => {
-      resetInactivityTimer();
-
-      // If popup is visible and user becomes active, hide it
-      if (showInactivityPopup) {
-        setShowInactivityPopup(false);
-      }
-    };
-
-    window.addEventListener("mousemove", handleUserActivity);
-    window.addEventListener("keydown", handleUserActivity);
-    window.addEventListener("click", handleUserActivity);
-    window.addEventListener("scroll", handleUserActivity);
-
-    return () => {
-      if (inactivityTimerRef.current) {
-        clearTimeout(inactivityTimerRef.current);
-      }
-      window.removeEventListener("mousemove", handleUserActivity);
-      window.removeEventListener("keydown", handleUserActivity);
-      window.removeEventListener("click", handleUserActivity);
-      window.removeEventListener("scroll", handleUserActivity);
-    };
-  }, [isLoggedIn, showInactivityPopup, resetInactivityTimer]);
-
-  // Keep localStorage updated for isLoggedIn (if your app changes it elsewhere)
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("isLoggedIn", isLoggedIn);
-    }
-  }, [isLoggedIn]);
-
-  // Routes and motion variants remain unchanged
   const routes = {
     Home: "/home",
     AllProduct: "/products",
@@ -533,12 +67,6 @@ function Navbar() {
     hover: { scale: 1.1, transition: { duration: 0.3, yoyo: Infinity } },
   };
 
-  const popupVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
-    exit: { opacity: 0, scale: 0.8, transition: { duration: 0.2 } },
-  };
-
   const gradientHoverClasses = `
     relative overflow-hidden z-10
     group
@@ -564,10 +92,7 @@ function Navbar() {
       transition={{ duration: 0.8, ease: "easeInOut" }}
       className="w-full bg-amber-50 z-50 shadow-md pt-3 "
     >
-      <div
-        className="px-4 max-w-screen-xl  mx-auto flex items-center justify-between h-[70px] "
-        ref={containerRef}
-      >
+      <div className="px-4 max-w-screen-xl mx-auto flex items-center justify-between h-[70px]">
         {/* LOGO */}
         <motion.div
           variants={logoVariants}
@@ -606,7 +131,7 @@ function Navbar() {
 
         {/* RIGHT ICONS */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 bg-amber-50 p-2 rounded-full">
-          {/* Cart Icon */}
+          {/* Cart */}
           <motion.div
             variants={iconVariants}
             initial="hidden"
@@ -615,11 +140,11 @@ function Navbar() {
           >
             <div className={gradientOverlayClasses}></div>
             <Link to="/addcart" onClick={scrollToTop} aria-label="Cart">
-              <FiShoppingCart className="w-5 h-5 text-black group-hover:text-black transition-colors duration-300 ease-in-out " />
+              <FiShoppingCart className="w-5 h-5 text-black" />
             </Link>
           </motion.div>
 
-          {/* Wishlist Icon */}
+          {/* Wishlist */}
           <motion.div
             variants={iconVariants}
             initial="hidden"
@@ -628,44 +153,29 @@ function Navbar() {
           >
             <div className={gradientOverlayClasses}></div>
             <Link to="/whilist" onClick={scrollToTop} aria-label="Wishlist">
-              <FiHeart className="w-5 h-5 text-black group-hover:text-black transition-colors duration-300 ease-in-out " />
+              <FiHeart className="w-5 h-5 text-black" />
             </Link>
           </motion.div>
 
-          {/* User/Profile Icon */}
-          <AnimatePresence mode="wait">
-            {isLoggedIn ? (
-              <motion.div
-                key="profile-icon"
-                variants={iconVariants}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-                className={gradientHoverClasses}
-              >
-                <div className={gradientOverlayClasses}></div>
-                <Link to="/profile" onClick={scrollToTop} aria-label="User Profile">
-                  <FiUser className="w-5 h-5 text-black group-hover:text-black transition-colors duration-300 ease-in-out " />
-                </Link>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="login-signup-icon"
-                variants={iconVariants}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-                className={gradientHoverClasses}
-              >
-                <div className={gradientOverlayClasses}></div>
-                <Link to="/login" onClick={scrollToTop} aria-label="Login or Sign Up">
-                  <FiUser className="w-5 h-5 text-black group-hover:text-black transition-colors duration-300 ease-in-out" />
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* User/Profile */}
+          <motion.div
+            key={isLoggedIn ? "profile" : "login"}
+            variants={iconVariants}
+            initial="hidden"
+            animate="visible"
+            className={gradientHoverClasses}
+          >
+            <div className={gradientOverlayClasses}></div>
+            <Link
+              to={isLoggedIn ? "/profile" : "/login"}
+              onClick={scrollToTop}
+              aria-label="User"
+            >
+              <FiUser className="w-5 h-5 text-black" />
+            </Link>
+          </motion.div>
 
-          {/* MOBILE MENU ICON */}
+          {/* Mobile Menu Icon */}
           <div onClick={handleClick} className="md:hidden cursor-pointer">
             {nav ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
           </div>
@@ -694,7 +204,7 @@ function Navbar() {
               </div>
             </div>
 
-            {/* Mobile Nav Links */}
+            {/* Mobile Links */}
             <ul className="flex flex-col space-y-3 text-black font-bold">
               {Object.entries(routes).map(([item, path]) => (
                 <li key={item}>
@@ -708,64 +218,6 @@ function Navbar() {
                 </li>
               ))}
             </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Inactivity Popup */}
-      <AnimatePresence>
-        {showInactivityPopup && !isLoggedIn && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              variants={popupVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="bg-white p-8 rounded-lg shadow-xl max-w-sm text-center relative"
-            >
-              <button
-                onClick={() => {
-                  setShowInactivityPopup(false);
-                  resetInactivityTimer();
-                }}
-                className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold"
-                aria-label="Close popup"
-              >
-                &times;
-              </button>
-              <h2 className="text-2xl font-bold mb-4 text-amber-700">Are you still there?</h2>
-              <p className="text-gray-700 mb-6">
-                You've been inactive for a while. Log in or sign up to save your progress and
-                discover more!
-              </p>
-              <div className="flex justify-center space-x-4">
-                <Link
-                  to="/login"
-                  onClick={() => {
-                    scrollToTop();
-                    setShowInactivityPopup(false);
-                    resetInactivityTimer();
-                  }}
-                  className="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700 transition duration-200"
-                >
-                  Login / Sign Up
-                </Link>
-                <button
-                  onClick={() => {
-                    setShowInactivityPopup(false);
-                    resetInactivityTimer();
-                  }}
-                  className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-200"
-                >
-                  Continue Browse
-                </button>
-              </div>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
