@@ -18,15 +18,8 @@ import autoprefixer from 'autoprefixer'; // Import autoprefixer
 //   ],
 // };
 
-// export default {
-//   plugins: {
-//     "@tailwindcss/postcss": {},
-//   }
-// }
-
 export default {
   plugins: {
-    tailwindcss: {},
-    autoprefixer: {}
+    "@tailwindcss/postcss": {},
   }
-};
+}
