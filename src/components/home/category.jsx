@@ -83,7 +83,7 @@ function CategorySlider() {
           initial={{ opacity: 0, y: -20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl font-serif mb-8 text-[#2a2e0f] text-center"
+          className="text-3xl font-serif mb-8 text-[#2a2e0f] text-left pb-4"
         >
           Shop by Category
         </motion.h2>
@@ -146,13 +146,13 @@ function ProductCard({ product, index, inView }) {
       initial={{ opacity: 0, x: -200 }}
       animate={controls}
       exit={{ opacity: 0, x: -200, transition: { duration: 0.2 } }}
-      className="relative flex-shrink-0 w-[280px] h-[350px] rounded-3xl overflow-hidden group"
+      className="relative flex-shrink-0 w-[280px] h-[350px] rounded-xl overflow-hidden group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link to={product.link} className="block h-full">
         <motion.img
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 0 }} 
           animate={{ opacity: imageLoaded ? 1 : 0 }}
           exit={{ opacity: 0 }}
           src={product.image || "/placeholder.svg"}
