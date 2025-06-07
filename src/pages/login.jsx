@@ -172,7 +172,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#fdf6f0] flex items-center justify-center px-4 pt-10 pb-20">
+    <div className="min-h-screen bg-[#fdf6f0]  flex items-center justify-center px-4 pt-10 pb-20">
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 bg-[#fdf6f0] rounded-3xl overflow-hidden">
         {/* Left Panel */}
         <div className="flex flex-col justify-center px-10 py-12 space-y-6">
