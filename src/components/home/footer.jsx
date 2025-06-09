@@ -271,11 +271,11 @@ export default function Footer() {
   return (
     <footer className="relative bg-[#2a2e0f] text-white overflow-hidden ">
       {/* ✨ Animated Cross Pattis */}
-      <div className="absolute -top-20 -left-1/2   w-[200%] h-1 bg-white opacity-20 rotate-12 animate-diagonal1 pointer-events-none" />
+      {/* <div className="absolute -top-20 -left-1/2   w-[200%] h-1 bg-white opacity-20 rotate-12 animate-diagonal1 pointer-events-none" />
       <div className="absolute -top-20  -left-1/2 w-[200%] h-1 bg-white opacity-20 -rotate-12 animate-diagonal2 pointer-events-none" />
       <div className="absolute -bottom-20 -right-1/2 w-[200%] h-1 bg-white opacity-20 rotate-12 animate-diagonal3 pointer-events-none" />
       <div className="absolute -bottom-20  -right-1/2 w-[200%] h-1 bg-white opacity-20 -rotate-12 animate-diagonal4 pointer-events-none" />
-
+ */}
 
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-12 relative z-10">
