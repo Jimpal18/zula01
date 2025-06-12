@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -12,7 +11,6 @@ import logo from "../../assets/logo.png";
 function Navbar() {
   const [nav, setNav] = useState(false);
 
-  // Check if user is logged in from localStorage
   const [isLoggedIn] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("isLoggedIn") === "true";
@@ -90,7 +88,7 @@ function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
-      className="w-full bg-amber-50 z-50 shadow-md pt-3 "
+      className="w-full bg-amber-50 z-50 shadow-md pt-3 sticky top-0 md:static"
     >
       <div className="px-4 max-w-screen-xl mx-auto flex items-center justify-between h-[70px]">
         {/* LOGO */}
