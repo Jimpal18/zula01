@@ -43,7 +43,6 @@ function Navbar() {
       y: 0,
       transition: { delay: i * 0.1, duration: 0.6, ease: "easeInOut" },
     }),
-    exit: { opacity: 0, y: 10 },
   };
 
   const iconVariants = {
@@ -62,7 +61,7 @@ function Navbar() {
       x: 0,
       transition: { duration: 0.8, ease: "easeInOut" },
     },
-    hover: { scale: 1.1, transition: { duration: 0.3, yoyo: Infinity } },
+    hover: { scale: 1.1, transition: { duration: 0.3 } },
   };
 
   const gradientHoverClasses = `
@@ -79,7 +78,6 @@ function Navbar() {
     opacity-0 group-hover:opacity-100
     scale-50 group-hover:scale-100
     transition-all duration-300 ease-in-out 
-    fill-black
     z-[-1]
   `;
 
@@ -102,7 +100,7 @@ function Navbar() {
             <img
               src={logo}
               alt="Zula Logo"
-              className="h-24 w-auto object-contain brightness-10"
+              className="h-24 w-auto object-contain"
             />
           </Link>
         </motion.div>
@@ -129,7 +127,6 @@ function Navbar() {
 
         {/* RIGHT ICONS */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 bg-amber-50 p-2 rounded-full">
-          {/* Cart */}
           <motion.div
             variants={iconVariants}
             initial="hidden"
@@ -142,7 +139,6 @@ function Navbar() {
             </Link>
           </motion.div>
 
-          {/* Wishlist */}
           <motion.div
             variants={iconVariants}
             initial="hidden"
@@ -155,7 +151,6 @@ function Navbar() {
             </Link>
           </motion.div>
 
-          {/* User/Profile */}
           <motion.div
             key={isLoggedIn ? "profile" : "login"}
             variants={iconVariants}
@@ -173,37 +168,24 @@ function Navbar() {
             </Link>
           </motion.div>
 
-          {/* Mobile Menu Icon */}
           <div onClick={handleClick} className="md:hidden cursor-pointer">
             {nav ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
           </div>
         </div>
       </div>
 
-      {/* MOBILE DROPDOWN */}
+      {/* MOBILE MENU: RIGHT SLIDE & AUTO HEIGHT */}
       <AnimatePresence>
         {nav && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden bg-amber-50 w-full px-4 pb-4 overflow-hidden"
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-[81px] right-0 w-3/4 bg-amber-50 z-40 shadow-lg px-6 py-4 md:hidden rounded-bl-xl"
           >
-            {/* Search Bar */}
-            <div className="py-3 flex justify-center">
-              <div className="relative w-full max-w-[660px]">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full p-2 pr-10 rounded-3xl bg-black text-white placeholder-white focus:outline-none border-2 border-black transition-colors duration-300 ease-in-out focus:border-amber-500"
-                />
-                <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
-              </div>
-            </div>
-
-            {/* Mobile Links */}
-            <ul className="flex flex-col space-y-3 text-black font-bold">
+            {/* Links */}
+            <ul className="flex flex-col space-y-4 text-black font-bold">
               {Object.entries(routes).map(([item, path]) => (
                 <li key={item}>
                   <Link
