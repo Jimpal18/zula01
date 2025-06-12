@@ -182,7 +182,7 @@ function Navbar() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-[81px] right-0 w-3/4 bg-amber-50 z-40 shadow-lg px-6 py-4 md:hidden rounded-bl-xl"
+            className="absolute top-[81px]  right-0 w-full  bg-amber-50 z-40 shadow-lg px-6 py-4 md:hidden rounded-bl-xl"
           >
             {/* Links */}
             <ul className="flex flex-col space-y-1 text-black font-bold">
