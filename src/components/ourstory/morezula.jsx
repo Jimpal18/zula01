@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import woodenSwingImage from "../../assets/pic1.jpg";
 import gardenSwingImage from "../../assets/pic2.jpg";
 
 const MoreZula = () => {
+  const [mainImage, setMainImage] = useState(woodenSwingImage);
+  const images = [woodenSwingImage, gardenSwingImage];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Auto change image every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setMainImage(images[currentIndex]);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, images.length]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -91,7 +105,7 @@ const MoreZula = () => {
 
             <motion.p
               variants={leftSlideVariants}
-              className="text-gray-500 mb-6  text-base lg:text-1xl leading-relaxed"
+              className="text-gray-500 mb-6 text-base lg:text-1xl leading-relaxed"
             >
               Zulas n More is a leading force in the world of furniture manufacturing,
               driven by a relentless commitment to craftsmanship, innovation, and design
@@ -124,16 +138,21 @@ const MoreZula = () => {
           {/* Right Section Image */}
           <motion.div
             variants={rightImageVariants}
-            whileHover="hover"
             initial="hidden"
             animate="show"
-            className="flex justify-center lg:justify-end mt-10 lg:mt-0"
+            className="flex justify-center lg:justify-end"
             style={{ perspective: "1000px" }}
           >
             <motion.img
-              src={woodenSwingImage}
-              alt="Wooden Swing"
+              key={mainImage}
+              src={mainImage}
+              alt="Swing Showcase"
               className="w-full max-w-sm sm:max-w-md lg:max-w-full lg:h-[32rem] xl:h-[36rem] object-cover rounded-4xl shadow-2xl"
+              whileHover={{
+                scale: 1.05,
+                transition: { type: "spring", stiffness: 300 }
+              }}
+     
             />
           </motion.div>
         </div>
