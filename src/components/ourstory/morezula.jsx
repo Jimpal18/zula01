@@ -8,13 +8,11 @@ const MoreZula = () => {
   const images = [woodenSwingImage, gardenSwingImage];
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto change image every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       setMainImage(images[currentIndex]);
     }, 3000);
-
     return () => clearInterval(interval);
   }, [currentIndex, images.length]);
 
@@ -22,10 +20,7 @@ const MoreZula = () => {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.3, delayChildren: 0.2 },
     },
   };
 
@@ -34,19 +29,12 @@ const MoreZula = () => {
     show: {
       opacity: 1,
       x: 0,
-      transition: {
-        duration: 1,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
+      transition: { duration: 1, ease: [0.6, -0.05, 0.01, 0.99] },
     },
   };
 
   const rightImageVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.8,
-      rotate: 200,
-    },
+    hidden: { opacity: 0, scale: 0.8, rotate: 200 },
     show: {
       opacity: 1,
       scale: 1,
@@ -57,13 +45,6 @@ const MoreZula = () => {
         stiffness: 80,
         damping: 12,
         delay: 0.5,
-      },
-    },
-    hover: {
-      scale: 1.05,
-      transition: {
-        type: "spring",
-        stiffness: 300,
       },
     },
   };
@@ -83,18 +64,33 @@ const MoreZula = () => {
       initial="hidden"
       animate="show"
       variants={containerVariants}
-      className="bg-amber-50 min-h-screen mb-10 px-4 py-12 md:px-10 lg:px-20 xl:px-32 2xl:px-40"
+      className="relative bg-amber-50 min-h-screen mb-10 px-4 py-12 md:px-10 lg:px-20 xl:px-32 2xl:px-40 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Title Section */}
+      {/* ✨ Light Amber Infinite Background Circles */}
+   {/* Highlighted Amber Background Circles */}
+<div className="absolute inset-0 flex justify-center items-center z-0 pointer-events-none">
+  {[...Array(12)].map((_, i) => (
+    <div
+      key={i}
+      className="absolute rounded-full bg-amber-100 border border-amber-200 shadow-sm opacity-60 animate-slow-pulse"
+      style={{
+        width: `${200 + i * 100}px`,
+        height: `${200 + i * 100}px`,
+        animationDelay: `${i * 0.3}s`,
+        mixBlendMode: "overlay", // helps highlight against bg
+      }}
+    />
+  ))}
+</div>
+
+      {/* ✅ Your Original Content — Unchanged */}
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div variants={leftSlideVariants} className="text-center mb-10">
           <h1 className="text-3xl lg:text-3xl font-la-mango text-gray-800">Our Story</h1>
           <p className="text-sm text-gray-500 pt-3 pb-10">Home / Story</p>
         </motion.div>
 
-        {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Left Section */}
           <motion.div variants={leftSlideVariants}>
             <motion.h3
               variants={leftSlideVariants}
@@ -102,7 +98,6 @@ const MoreZula = () => {
             >
               Zulas n More brings you top-notch swings which give you better comfort and luxury.
             </motion.h3>
-
             <motion.p
               variants={leftSlideVariants}
               className="text-gray-500 mb-6 text-base lg:text-1xl leading-relaxed"
@@ -113,8 +108,6 @@ const MoreZula = () => {
               reputation for creating exceptional furniture pieces that adorn homes,
               offices, and spaces of all kinds.
             </motion.p>
-
-            {/* Small Images */}
             <motion.div
               variants={leftSlideVariants}
               className="grid grid-cols-2 gap-5 pt-6"
@@ -135,7 +128,6 @@ const MoreZula = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Section Image */}
           <motion.div
             variants={rightImageVariants}
             initial="hidden"
@@ -150,9 +142,8 @@ const MoreZula = () => {
               className="w-full max-w-sm sm:max-w-md lg:max-w-full lg:h-[32rem] xl:h-[36rem] object-cover rounded-4xl shadow-2xl"
               whileHover={{
                 scale: 1.05,
-                transition: { type: "spring", stiffness: 300 }
+                transition: { type: "spring", stiffness: 300 },
               }}
-     
             />
           </motion.div>
         </div>
