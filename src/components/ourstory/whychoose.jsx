@@ -104,12 +104,12 @@ const WhyChoose = () => {
 
   return (
     <div
-      className="bg-amber-50 px-4 py-6 md:px-8 lg:px-16 pb-20"
+      className="bg-amber-50 px-4 py-6 md:px-8 lg:px-16  "
       ref={inViewRef}
     >
       <div className="max-w-7xl mx-auto">
         <div className="text-left">
-          <h1 className="text-3xl font-la-mango text-gray-800 pb-7">
+          <h1 className="text-3xl font-la-mango text-gray-800 pb-6 pt-6">
             Why Choose Zulas n More?
           </h1>
         </div>
@@ -147,7 +147,7 @@ const WhyChoose = () => {
                     relative 
                     w-[300px] sm:w-[280px] md:w-[280px] lg:w-[300px] 
                     h-[280px] sm:h-[300px] md:h-[320px] 
-                    rounded-4xl overflow-hidden shadow-lg group flex-shrink-0 mb-20
+                    rounded-4xl overflow-hidden shadow-lg group flex-shrink-0 mb-10
                   "
                   variants={itemVariants}
                 >

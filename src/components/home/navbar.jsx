@@ -2,14 +2,62 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import { FaSearch } from "react-icons/fa";
 import { FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 
+// Animation Variants (defined at the top to avoid reference errors)
+const navItemVariants = {
+  hidden: { opacity: 0, y: -10 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.6, ease: "easeInOut" },
+  }),
+};
+
+const iconVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, ease: "easeInOut" },
+  },
+};
+
+const logoVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeInOut" },
+  },
+  hover: { scale: 1.1, transition: { duration: 0.3 } },
+};
+
+// Gradient hover classes (CSS-in-JS)
+const gradientHoverClasses = `
+  relative overflow-hidden z-10
+  group
+  p-2 rounded-full border border-black
+  transition-all duration-300 ease-in-out
+  hover:border-transparent
+`;
+
+const gradientOverlayClasses = `
+  absolute inset-0 rounded-full
+  bg-gradient-to-br from-amber-400 via-amber-500 to-amber-100
+  opacity-0 group-hover:opacity-100
+  scale-50 group-hover:scale-100
+  transition-all duration-300 ease-in-out
+  z-[-1]
+`;
+
 function Navbar() {
   const [nav, setNav] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [isLoggedIn] = useState(() => {
     if (typeof window !== "undefined") {
@@ -20,11 +68,11 @@ function Navbar() {
 
   const handleClick = () => setNav(!nav);
 
-  const scrollToTop = () => {
-    setNav(false);
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 100);
+  const handleLinkClick = (path) => (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "instant" }); // Force scroll to top instantly
+    setNav(false); // Close mobile menu
+    setTimeout(() => navigate(path), 0); // Navigate after scroll
   };
 
   const routes = {
@@ -35,51 +83,6 @@ function Navbar() {
     OurStory: "/ourstory",
     Contact: "/contact",
   };
-
-  const navItemVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.1, duration: 0.6, ease: "easeInOut" },
-    }),
-  };
-
-  const iconVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.4, ease: "easeInOut" },
-    },
-  };
-
-  const logoVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.8, ease: "easeInOut" },
-    },
-    hover: { scale: 1.1, transition: { duration: 0.3 } },
-  };
-
-  const gradientHoverClasses = `
-    relative overflow-hidden z-10
-    group
-    p-2 rounded-full border border-black
-    transition-all duration-300 ease-in-out
-    hover:border-transparent
-  `;
-
-  const gradientOverlayClasses = `
-    absolute inset-0 rounded-full
-    bg-gradient-to-br from-amber-400 via-amber-500 to-amber-100
-    opacity-0 group-hover:opacity-100
-    scale-50 group-hover:scale-100
-    transition-all duration-300 ease-in-out 
-    z-[-1]
-  `;
 
   return (
     <motion.div
@@ -96,7 +99,7 @@ function Navbar() {
           animate="visible"
           whileHover="hover"
         >
-          <Link to="/home" onClick={scrollToTop}>
+          <Link to="/home" onClick={handleLinkClick("/home")}>
             <img
               src={logo}
               alt="Zula Logo"
@@ -118,7 +121,11 @@ function Navbar() {
               custom={index}
               whileHover={{ scale: 1.1, color: "#f59e0b" }}
             >
-              <Link to={path} onClick={scrollToTop} className="hover:text-amber-600">
+              <Link
+                to={path}
+                onClick={handleLinkClick(path)}
+                className="hover:text-amber-600"
+              >
                 {item}
               </Link>
             </motion.li>
@@ -127,54 +134,37 @@ function Navbar() {
 
         {/* RIGHT ICONS */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 bg-amber-50 p-2 rounded-full">
-          <motion.div
-            variants={iconVariants}
-            initial="hidden"
-            animate="visible"
-            className={gradientHoverClasses}
-          >
-            <div className={gradientOverlayClasses}></div>
-            <Link to="/addcart" onClick={scrollToTop} aria-label="Cart">
-              <FiShoppingCart className="w-5 h-5 text-black" />
-            </Link>
-          </motion.div>
-
-          <motion.div
-            variants={iconVariants}
-            initial="hidden"
-            animate="visible"
-            className={gradientHoverClasses}
-          >
-            <div className={gradientOverlayClasses}></div>
-            <Link to="/whilist" onClick={scrollToTop} aria-label="Wishlist">
-              <FiHeart className="w-5 h-5 text-black" />
-            </Link>
-          </motion.div>
-
-          <motion.div
-            key={isLoggedIn ? "profile" : "login"}
-            variants={iconVariants}
-            initial="hidden"
-            animate="visible"
-            className={gradientHoverClasses}
-          >
-            <div className={gradientOverlayClasses}></div>
-            <Link
-              to={isLoggedIn ? "/profile" : "/login"}
-              onClick={scrollToTop}
-              aria-label="User"
+          {[
+            { to: "/addcart", icon: <FiShoppingCart />, label: "Cart" },
+            { to: "/whilist", icon: <FiHeart />, label: "Wishlist" },
+            {
+              to: isLoggedIn ? "/profile" : "/login",
+              icon: <FiUser />,
+              label: "User",
+            },
+          ].map(({ to, icon, label }) => (
+            <motion.div
+              key={label}
+              variants={iconVariants}
+              initial="hidden"
+              animate="visible"
+              className={gradientHoverClasses}
             >
-              <FiUser className="w-5 h-5 text-black" />
-            </Link>
-          </motion.div>
+              <div className={gradientOverlayClasses}></div>
+              <Link to={to} onClick={handleLinkClick(to)} aria-label={label}>
+                {icon}
+              </Link>
+            </motion.div>
+          ))}
 
+          {/* Mobile Menu Toggle */}
           <div onClick={handleClick} className="md:hidden cursor-pointer">
             {nav ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
           </div>
         </div>
       </div>
 
-      {/* MOBILE MENU: RIGHT SLIDE & AUTO HEIGHT */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {nav && (
           <motion.div
@@ -182,15 +172,14 @@ function Navbar() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-[81px]  right-0 w-full  bg-amber-50 z-40 shadow-lg px-6 py-4 md:hidden rounded-bl-xl transition-opacity"
+            className="absolute top-[81px] right-0 w-full bg-amber-50 z-40 shadow-lg px-6 py-4 md:hidden rounded-bl-xl"
           >
-            {/* Links */}
             <ul className="flex flex-col space-y-1 text-black font-bold">
               {Object.entries(routes).map(([item, path]) => (
                 <li key={item}>
                   <Link
                     to={path}
-                    onClick={scrollToTop}
+                    onClick={handleLinkClick(path)}
                     className="block py-2 hover:text-amber-600"
                   >
                     {item}
